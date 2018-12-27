@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo } from 'react'
+import React, { createContext, useState, useMemo, useCallback } from 'react'
 import io from 'socket.io-client'
 import MinaraiClient from 'minarai-client-sdk-js-socket-io'
 
@@ -38,9 +38,7 @@ export const MinaraiContextProvider = ({ children }) => {
     return cli
   }, [])
 
-  const send = message => {
-    minaraiClient.send(message)
-  }
+  const send = useCallback(message => minaraiClient.send(message), [])
 
   return (
     <MinaraiContext.Provider value={{ outgoingMessage, incomingMessage, send }}>
